@@ -96,14 +96,3 @@ int main(int argc, char **argv ){
 
 	return 0;
 }
-
-
-void alpha(char* word) {                             //     ALPHA NUMERIC CHECKING
-   while (*word) {
-      if (!(*word >= 'a' && *word <= 'z') && !(*word >= '0' && *word <= '9')) {
-         strcpy(word, word + 1);
-         word--;
-      }
-      word++;
-   }
-}
