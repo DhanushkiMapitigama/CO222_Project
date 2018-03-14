@@ -138,3 +138,14 @@ int checkList(list* head1, char *word2){                   // CHECKING LIST
 	}
 	return 1;
 }
+
+void increaseCount(list* head1, char *word2){                //   INCREASING COUNT
+	list * current = head1;
+	while (current != NULL){
+		if(strcmp(word2, current->word) == 0){
+			current->count = current->count + 1;
+			return;
+		}
+		current = current->next;
+	}
+}
