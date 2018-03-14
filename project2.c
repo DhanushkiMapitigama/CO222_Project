@@ -289,3 +289,16 @@ void prntingGraph(double maxp, int value, double percent, int maxlen, char *word
 	printf("\n");
 
 }
+
+void printLastLine(int maxlen){
+	int i;
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("└");
+	for(i=0; i<(80-maxlen-3); i++){
+		printf("─");
+	}
+	printf("\n");
+	return;
+}
