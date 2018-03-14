@@ -149,3 +149,65 @@ void increaseCount(list* head1, char *word2){                //   INCREASING COU
 		current = current->next;
 	}
 }
+
+void sortList(list* head1, int total, int N, int scaleState){                     //      SORTING LIST
+	printf("\n");
+	list* current1 = head1;
+	double maxp = 100.00;
+	if (scaleState == 1){
+		maxp = maxcount(head1)*100.00/total;
+	}
+	
+	int q=0, hunState = 0, tenState = 0;
+	int maxi = maximum(head1,N);
+	while (head1 != NULL){
+		// printf("***");
+		
+		list* current2 = current1->next;
+		//printf("***");
+		int max = current1->count;
+		
+		while(current2 != NULL){
+			//printf("***");
+
+			
+			int c2 = current2->count;
+			//printf("%d, %d\n",c1,c2 );
+
+			if(c2>max){
+				max = c2;
+			}
+
+			current2 = current2->next;
+		}
+
+		list* current3 = current1;
+		while(current3 != NULL){
+			if(current3->count == max && current3->count != 0 ){
+				double percentage = (current3->count)*100.00/total;
+				//printf("%s = %.2f%%\n", current3->word, percentage);
+				if ((int)percentage == 100  || hunState == 1){
+					prntingGraph( maxp, strlen(current3->word), percentage, maxi , current3->word,7);
+					hunState = 1;
+				} else if ((int)percentage >=10  || tenState == 1){
+					prntingGraph(maxp,strlen(current3->word), percentage, maxi , current3->word,6);
+					tenState = 1;
+				} else {
+					prntingGraph( maxp,strlen(current3->word), percentage, maxi , current3->word,5);
+				}
+				
+				q++;
+				if(q==N){
+					printLastLine(maxi);
+					return;
+				}
+				current3->count = 0;
+			}
+			current3 = current3->next;
+		}
+		head1 = head1->next;
+		//return;
+	}
+	printLastLine(maxi);
+	return;
+}
