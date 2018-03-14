@@ -118,3 +118,23 @@ void pushBack(list * head1, char *word2) {        //            ADDING ELEMENTS 
     current->next->next = NULL;
     return;
 }
+
+void print_list(list * head1) {    //   PRINTING LIST
+    list * current = head1;
+    while (current != NULL) {
+        printf("%s= %d \n",current->word, current->count);
+        current = current->next;
+    }
+    return;
+}
+
+int checkList(list* head1, char *word2){                   // CHECKING LIST
+	list * current = head1;
+	while (current != NULL){
+		if(strcmp(word2, current->word) == 0){
+			return 0;
+		}
+		current = current->next;
+	}
+	return 1;
+}
