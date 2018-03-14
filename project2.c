@@ -11,6 +11,13 @@ typedef struct node {
 
 } list;
 
+typedef struct nodet {
+	char character;
+	int count;
+	struct nodet* next;
+
+} list2;
+
 int main(int argc, char **argv ){
 	return 0;
 }
