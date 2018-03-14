@@ -106,3 +106,15 @@ void alpha(char* word) {                             //     ALPHA NUMERIC CHECKI
       word++;
    }
 }
+
+void pushBack(list * head1, char *word2) {        //            ADDING ELEMENTS TO LIST
+    list * current = head1;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = (list*)malloc(sizeof(list));
+    strcpy(current->next->word, word2);
+    current->next->count = 1;
+    current->next->next = NULL;
+    return;
+}
