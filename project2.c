@@ -302,3 +302,108 @@ void printLastLine(int maxlen){
 	printf("\n");
 	return;
 }
+
+void sortListchar(list2* head1, int total, int N, int scaleState){                     //      SORTING LIST
+	printf("\n");
+	list2* current1 = head1;
+	double maxp = 100.00;
+	if(scaleState == 1){
+		maxp = maxcountchar(head1)*100.00/total;
+	}
+	int q=0,hunState=0, tenState=0;
+	int maxi =1;
+	while (head1 != NULL){
+		// printf("***");
+		
+		list2* current2 = current1->next;
+		//printf("***");
+		int max = current1->count;
+		
+		while(current2 != NULL){
+			//printf("***");
+
+			
+			int c2 = current2->count;
+			//printf("%d, %d\n",c1,c2 );
+
+			if(c2>max){
+				max = c2;
+			}
+
+			current2 = current2->next;
+		}
+
+		list2* current3 = current1;
+		while(current3 != NULL){
+			if(current3->count == max && current3->count != 0 ){
+				double percentage = (current3->count)*100.00/total;
+				//printf("%c = %.2f%%\n", current3->character, percentage);
+				if ((int)percentage == 100  || hunState == 1){
+					prntingGraphchar( maxp, 1 , percentage, 1 , current3->character, 7);
+					hunState = 1;
+				} else if((int)percentage >= 10 || tenState == 1){
+					prntingGraphchar(maxp,  1 , percentage, 1 , current3->character, 6);
+					tenState =1;
+				} else {
+					prntingGraphchar( maxp, 1 , percentage, 1 , current3->character, 5);
+				}
+				
+				q++;
+				if(q==N){
+					printLastLine(maxi);
+					return;
+				}
+				current3->count = 0;
+			}
+			current3 = current3->next;
+		}
+		head1 = head1->next;
+		//return;
+	}
+	printLastLine(maxi);
+	return;
+}
+
+void prntingGraphchar(double maxp, int value, double percent, int maxlen, char c, int maxper){
+	int i;
+	int len = 1;
+	int barlen = 80-maxlen-3-maxper;
+	int val = percent*barlen/maxp;
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("\n");
+
+
+	printf(" %c ", c);
+	for(i=0;i<(maxlen-len);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("%.2f%%\n",percent);
+
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("\n");
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	printf("\n");
+
+}
