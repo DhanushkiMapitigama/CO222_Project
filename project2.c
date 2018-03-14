@@ -211,3 +211,36 @@ void sortList(list* head1, int total, int N, int scaleState){                   
 	printLastLine(maxi);
 	return;
 }
+
+int maximum(list *head1, int N){
+	list* current4 = head1;
+	int maxco=0;
+	while(current4 != NULL){
+		if(current4->count > maxco){
+			maxco = current4->count;
+		}
+		current4 = current4->next;
+	}
+	//return maxlen;
+	list* current5 = head1;
+	int maxlen=0, j=0;
+
+	while(maxco != 0){
+		current5 = head1;
+		while(current5 != NULL){
+			if(current5->count == maxco){
+				if(strlen(current5->word) > maxlen){
+					maxlen = strlen(current5->word);
+				}
+				j++;
+				if(j==N){
+					return maxlen;
+				}
+			}
+		current5 = current5->next;
+		}
+		maxco = maxco-1;
+		
+	}
+	return maxlen;
+}
