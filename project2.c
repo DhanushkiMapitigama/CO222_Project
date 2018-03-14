@@ -244,3 +244,48 @@ int maximum(list *head1, int N){
 	}
 	return maxlen;
 }
+
+
+void prntingGraph(double maxp, int value, double percent, int maxlen, char *word, int maxper){
+	int i;
+	int len = strlen(word);
+	int barlen = 80-maxlen-3-maxper;
+	int val = percent*barlen/maxp;
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("\n");
+
+
+	printf(" %s ", word);
+	for(i=0;i<(maxlen-len);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("%.2f%%\n",percent);
+
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("\n");
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	printf("\n");
+
+}
