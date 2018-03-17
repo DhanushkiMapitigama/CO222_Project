@@ -18,6 +18,23 @@ typedef struct nodet {
 
 } list2;
 
+void pushBack(list * head1, char* word2);
+void alpha(char* word);
+void print_list(list* head1);
+int checkList(list* head1, char *word2);
+void increaseCount(list* head1, char *word2);
+void sortList(list* head1, int total, int N,int scaleState);
+void prntingGraph(double maxp, int value, double percent, int maxlen, char *word, int maxper);
+int maximum(list *head1, int N);
+void printLastLine(int maxlen);
+int checkListChar(list2* head1, char c);
+void pushBackChar(list2 * head1, char c);
+void increaseCountChar(list2* head1, char c);
+void sortListchar(list2* head1, int total, int N, int scaleState);
+void prntingGraphchar(double maxp, int value, double percent, int maxlen, char c, int maxper);
+int maxcount(list *head);
+int maxcountchar(list2 *head);
+
 int main(int argc, char **argv ){
 
 	//argument handling
@@ -301,6 +318,17 @@ void printLastLine(int maxlen){
 	}
 	printf("\n");
 	return;
+}
+
+int checkListChar(list2* head1, char c){                   // CHECKING LIST CHARACTER
+	list2 * current = head1;
+	while (current != NULL){
+		if(current->character == c ){
+			return 0;
+		}
+		current = current->next;
+	}
+	return 1;
 }
 
 void sortListchar(list2* head1, int total, int N, int scaleState){                     //      SORTING LIST
