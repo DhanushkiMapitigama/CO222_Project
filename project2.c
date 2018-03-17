@@ -108,11 +108,185 @@ int main(int argc, char **argv ){
 		}
 	}
 
-	// end of argument handling
+	
+
+	// argument handling
 
 
-	return 0;
+	if (wordState == 1){
+		int x;
+		char word1[100];
+		int i=0;
+		list* head = NULL;
+		head = (list*)malloc(sizeof(list));
+
+		for(x=0;x<argcou;x++){
+
+			FILE *fp = fopen(arg[x],"r");
+			if(fp != NULL){
+
+				
+		 
+		        while( fscanf(fp, "%s", word1) != EOF ){
+		        	int t;
+		        	for(t = 0; word1[t] != '\0'; t++){
+					    word1[t] = tolower(word1[t]);                //removing other characters and converting to lower case.
+					}
+		        	alpha(word1);
+		            
+					if (head != NULL  && strlen(word1)!=0 ) {			
+						if(i==0){
+							strcpy(head->word, word1);
+							head->count = 1;
+							head->next = NULL;
+							i++;			
+						} else{					
+							char *p = word1;
+							if(checkList(head,p) == 1){      //checkng list
+								pushBack(head, p);          // adding items to the list
+							} else {
+								increaseCount(head, p);     //increasing count
+							}
+							i++;					
+						}			   
+					}
+
+		        }
+		        
+
+			} else {
+				printf("Cannot open one or more given files\n");
+				return 0;
+			}
+
+		}
+		if(i==0){
+			printf("No data to process\n");
+			return 0;
+		}
+
+		sortList(head,i,lenval,scaleState); //sorting and printing list
+		        //print_list(head); //printing list
+		
+
+	} else if(characterState == 1) {
+		
+		int x;
+		char c;
+		int i=0;
+		//int total = 0;
+		list2* head = NULL;
+		head = (list2*)malloc(sizeof(list2));
+
+		for(x=0;x<argcou;x++){
+
+			FILE *fp = fopen(arg[x],"r");
+			if(fp != NULL){
+
+				
+		 
+		        while( fscanf(fp, "%c", &c) != EOF ){
+		        	if(isalpha(c) != 0){
+		        		c = tolower(c);
+		        	}
+		            
+					if (head != NULL  && (( (c>='a')&&(c<='z') ) || ( (c>='0')&&(c<='9') ) ) ) {			
+						if(i==0){
+							head->character = c;
+							head->count = 1;
+							head->next = NULL;
+							i++;			
+						} else{					
+							if(checkListChar(head, c) == 1){      //checkng list
+								pushBackChar(head, c);          // adding items to the list
+							} else {
+								increaseCountChar(head, c);     //increasing count
+							}
+							i++;					
+						}			   
+					}
+
+		        }
+		        
+
+			} else {
+				printf("Cannot open one or more given files\n");
+				return 0;
+			}
+
+		}
+		if(i==0){
+			printf("No data to process\n");
+			return 0;
+		}
+
+		sortListchar(head,i,lenval,scaleState);
+
+	}
+
+
+
+ 	return 0;	
 }
+
+
+void prntingGraph(double maxp, int value, double percent, int maxlen, char *word, int maxper){
+	int i;
+	int len = strlen(word);
+	int barlen = 80-maxlen-3-maxper;
+	int val = percent*barlen/maxp;
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("\n");
+
+
+	printf(" %s ", word);
+	for(i=0;i<(maxlen-len);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("%.2f%%\n",percent);
+
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	for(i=0;i<val;i++){
+		printf("░");
+	}
+	printf("\n");
+
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("│");
+	printf("\n");
+
+}
+
+void printLastLine(int maxlen){
+	int i;
+	for(i=0;i<(maxlen+2);i++){
+		printf(" ");
+	}
+	printf("└");
+	for(i=0; i<(80-maxlen-3); i++){
+		printf("─");
+	}
+	printf("\n");
+	return;
+}
+
 
 void alpha(char* word) {                             //     ALPHA NUMERIC CHECKING
    while (*word) {
@@ -135,6 +309,15 @@ void pushBack(list * head1, char *word2) {        //            ADDING ELEMENTS 
     current->next->next = NULL;
     return;
 }
+
+/*void pushFront(list* head1, char *word2) {
+    list * new_node;
+    new_node = malloc(sizeof(list));
+    strcpy(new_node->word, word2);
+    new_node->length = strlen(word2);
+    new_node->next = head1;
+    head1 = new_node;
+}*/
 
 void print_list(list * head1) {    //   PRINTING LIST
     list * current = head1;
@@ -165,6 +348,30 @@ void increaseCount(list* head1, char *word2){                //   INCREASING COU
 		}
 		current = current->next;
 	}
+}
+
+int maxcount(list *head){
+	list* current = head;
+	int maxcount = 0;
+	while( current != NULL){
+		if(current->count > maxcount){
+			maxcount = current->count;
+		}
+		current = current->next;
+	}
+	return maxcount;
+}
+
+int maxcountchar(list2 *head){
+	list2* current = head;
+	int maxcount = 0;
+	while( current != NULL){
+		if(current->count > maxcount){
+			maxcount = current->count;
+		}
+		current = current->next;
+	}
+	return maxcount;
 }
 
 void sortList(list* head1, int total, int N, int scaleState){                     //      SORTING LIST
@@ -229,6 +436,7 @@ void sortList(list* head1, int total, int N, int scaleState){                   
 	return;
 }
 
+
 int maximum(list *head1, int N){
 	list* current4 = head1;
 	int maxco=0;
@@ -262,64 +470,6 @@ int maximum(list *head1, int N){
 	return maxlen;
 }
 
-
-void prntingGraph(double maxp, int value, double percent, int maxlen, char *word, int maxper){
-	int i;
-	int len = strlen(word);
-	int barlen = 80-maxlen-3-maxper;
-	int val = percent*barlen/maxp;
-
-	for(i=0;i<(maxlen+2);i++){
-		printf(" ");
-	}
-	printf("│");
-	for(i=0;i<val;i++){
-		printf("░");
-	}
-	printf("\n");
-
-
-	printf(" %s ", word);
-	for(i=0;i<(maxlen-len);i++){
-		printf(" ");
-	}
-	printf("│");
-	for(i=0;i<val;i++){
-		printf("░");
-	}
-	printf("%.2f%%\n",percent);
-
-
-	for(i=0;i<(maxlen+2);i++){
-		printf(" ");
-	}
-	printf("│");
-	for(i=0;i<val;i++){
-		printf("░");
-	}
-	printf("\n");
-
-	for(i=0;i<(maxlen+2);i++){
-		printf(" ");
-	}
-	printf("│");
-	printf("\n");
-
-}
-
-void printLastLine(int maxlen){
-	int i;
-	for(i=0;i<(maxlen+2);i++){
-		printf(" ");
-	}
-	printf("└");
-	for(i=0; i<(80-maxlen-3); i++){
-		printf("─");
-	}
-	printf("\n");
-	return;
-}
-
 int checkListChar(list2* head1, char c){                   // CHECKING LIST CHARACTER
 	list2 * current = head1;
 	while (current != NULL){
@@ -329,6 +479,30 @@ int checkListChar(list2* head1, char c){                   // CHECKING LIST CHAR
 		current = current->next;
 	}
 	return 1;
+}
+
+
+void pushBackChar(list2 * head1, char c) {        //            ADDING ELEMENTS TO LIST CHARACTER
+    list2 * current = head1;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = (list2*)malloc(sizeof(list2));
+    current->next->character = c;
+    current->next->count = 1;
+    current->next->next = NULL;
+    return;
+}
+
+void increaseCountChar(list2* head1, char c){                //   INCREASING COUNT
+	list2 * current = head1;
+	while (current != NULL){
+		if(current->character == c){
+			current->count = current->count + 1;
+			return;
+		}
+		current = current->next;
+	}
 }
 
 void sortListchar(list2* head1, int total, int N, int scaleState){                     //      SORTING LIST
@@ -390,18 +564,6 @@ void sortListchar(list2* head1, int total, int N, int scaleState){              
 	}
 	printLastLine(maxi);
 	return;
-}
-
-void pushBackChar(list2 * head1, char c) {        //            ADDING ELEMENTS TO LIST CHARACTER
-    list2 * current = head1;
-    while (current->next != NULL) {
-        current = current->next;
-    }
-    current->next = (list2*)malloc(sizeof(list2));
-    current->next->character = c;
-    current->next->count = 1;
-    current->next->next = NULL;
-    return;
 }
 
 void prntingGraphchar(double maxp, int value, double percent, int maxlen, char c, int maxper){
