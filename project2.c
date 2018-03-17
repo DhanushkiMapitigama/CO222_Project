@@ -392,6 +392,18 @@ void sortListchar(list2* head1, int total, int N, int scaleState){              
 	return;
 }
 
+void pushBackChar(list2 * head1, char c) {        //            ADDING ELEMENTS TO LIST CHARACTER
+    list2 * current = head1;
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    current->next = (list2*)malloc(sizeof(list2));
+    current->next->character = c;
+    current->next->count = 1;
+    current->next->next = NULL;
+    return;
+}
+
 void prntingGraphchar(double maxp, int value, double percent, int maxlen, char c, int maxper){
 	int i;
 	int len = 1;
